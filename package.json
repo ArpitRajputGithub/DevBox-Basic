@@ -1,0 +1,62 @@
+{
+  "name": "devbox",
+  "version": "1.0.0",
+  "description": "One-Command Developer Environment Setup - Transform any machine into a professional development environment in under 60 seconds",
+  "main": "install.sh",
+  "scripts": {
+    "install": "./install.sh",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "shellcheck install.sh",
+    "format": "prettier --write .",
+    "docs": "echo \"Documentation available at docs/\""
+  },
+  "keywords": [
+    "developer-tools",
+    "dotfiles",
+    "development-environment",
+    "setup",
+    "automation",
+    "productivity",
+    "web-development",
+    "mern-stack",
+    "vscode",
+    "zsh",
+    "git",
+    "nodejs"
+  ],
+  "author": "DevBox Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArpitRajputGithub/DevBox-Basic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ArpitRajputGithub/DevBox-Basic/issues"
+  },
+  "homepage": "https://devbox.dev",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "bin": {
+    "devbox": "./install.sh"
+  },
+  "files": [
+    "install.sh",
+    "README.md",
+    "LICENSE",
+    "config/",
+    "vscode/",
+    "templates/",
+    "docs/"
+  ],
+  "devDependencies": {
+    "shellcheck": "^1.0.0",
+    "prettier": "^2.8.4"
+  },
+  "preferGlobal": true
+} 

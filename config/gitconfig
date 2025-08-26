@@ -1,0 +1,380 @@
+[user]
+    name = Your Name
+    email = your.email@example.com
+
+[core]
+    editor = code --wait
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = false
+
+[push]
+    default = simple
+    followTags = true
+
+[fetch]
+    prune = true
+
+[merge]
+    ff = false
+
+[rebase]
+    autoStash = true
+
+[alias]
+    # Status shortcuts
+    st = status
+    s = status -s
+    
+    # Branch shortcuts
+    br = branch
+    co = checkout
+    cb = checkout -b
+    
+    # Commit shortcuts
+    ci = commit
+    cm = commit -m
+    ca = commit -a
+    cam = commit -am
+    
+    # Log shortcuts
+    lg = log --oneline --graph --decorate
+    lga = log --oneline --graph --decorate --all
+    ll = log --oneline
+    la = log --oneline --all
+    
+    # Diff shortcuts
+    d = diff
+    dc = diff --cached
+    dw = diff --word-diff
+    
+    # Remote shortcuts
+    r = remote
+    ra = remote add
+    rr = remote remove
+    
+    # Stash shortcuts
+    ss = stash
+    sp = stash pop
+    sl = stash list
+    
+    # Reset shortcuts
+    r1 = reset HEAD~1
+    rh = reset --hard
+    rs = reset --soft
+    
+    # Clean shortcuts
+    cl = clean -fd
+    
+    # Show shortcuts
+    sh = show
+    sh1 = show HEAD~1
+    
+    # Worktree shortcuts
+    wt = worktree
+    wta = worktree add
+    wtr = worktree remove
+    
+    # Submodule shortcuts
+    sm = submodule
+    smu = submodule update
+    smi = submodule init
+    
+    # Advanced aliases
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+    amend = commit --amend --reuse-message=HEAD
+    undo = reset --soft HEAD~1
+    wip = commit -m "WIP"
+    oops = commit --amend --no-edit
+    
+    # GitHub shortcuts
+    pr = pull request
+    issue = issue create
+    
+    # Custom aliases
+    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    pretty = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    recent = for-each-ref --sort=-committerdate refs/heads --format='%(committerdate:short) %(refname:short) %(subject)'
+    branches = for-each-ref --sort=-committerdate refs/heads --format='%(refname:short)'
+    tags = for-each-ref --sort=-committerdate refs/tags --format='%(refname:short)'
+    
+    # DevBox specific
+    devbox = !echo "DevBox Git Configuration Loaded"
+    setup = !echo "Setting up Git for DevBox..."
+
+[color]
+    ui = auto
+    status = auto
+    branch = auto
+    diff = auto
+    interactive = auto
+
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
+
+[color "branch"]
+    current = yellow
+    local = green
+    remote = red
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[color "grep"]
+    match = red bold
+    matchContext = yellow bold
+    matchSelected = red bold
+
+[color "interactive"]
+    prompt = yellow
+    header = cyan
+    help = cyan
+    error = red
+
+[help]
+    autocorrect = 1
+
+[rerere]
+    enabled = true
+
+[rebase]
+    autoStash = true
+
+[merge]
+    tool = vscode
+    conflictstyle = diff3
+
+[diff]
+    tool = vscode
+    algorithm = patience
+
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[credential]
+    helper = cache
+
+[credential "https://github.com"]
+    helper = !gh auth git-credential
+
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+
+[url "https://github.com:"]
+    insteadOf = git://github.com/
+
+[core]
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+    editor = code --wait
+    pager = cat
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = false
+
+[push]
+    default = simple
+    followTags = true
+
+[fetch]
+    prune = true
+
+[merge]
+    ff = false
+
+[rebase]
+    autoStash = true
+
+[alias]
+    # Status shortcuts
+    st = status
+    s = status -s
+    
+    # Branch shortcuts
+    br = branch
+    co = checkout
+    cb = checkout -b
+    
+    # Commit shortcuts
+    ci = commit
+    cm = commit -m
+    ca = commit -a
+    cam = commit -am
+    
+    # Log shortcuts
+    lg = log --oneline --graph --decorate
+    lga = log --oneline --graph --decorate --all
+    ll = log --oneline
+    la = log --oneline --all
+    
+    # Diff shortcuts
+    d = diff
+    dc = diff --cached
+    dw = diff --word-diff
+    
+    # Remote shortcuts
+    r = remote
+    ra = remote add
+    rr = remote remove
+    
+    # Stash shortcuts
+    ss = stash
+    sp = stash pop
+    sl = stash list
+    
+    # Reset shortcuts
+    r1 = reset HEAD~1
+    rh = reset --hard
+    rs = reset --soft
+    
+    # Clean shortcuts
+    cl = clean -fd
+    
+    # Show shortcuts
+    sh = show
+    sh1 = show HEAD~1
+    
+    # Worktree shortcuts
+    wt = worktree
+    wta = worktree add
+    wtr = worktree remove
+    
+    # Submodule shortcuts
+    sm = submodule
+    smu = submodule update
+    smi = submodule init
+    
+    # Advanced aliases
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+    amend = commit --amend --reuse-message=HEAD
+    undo = reset --soft HEAD~1
+    wip = commit -m "WIP"
+    oops = commit --amend --no-edit
+    
+    # GitHub shortcuts
+    pr = pull request
+    issue = issue create
+    
+    # Custom aliases
+    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    pretty = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    recent = for-each-ref --sort=-committerdate refs/heads --format='%(committerdate:short) %(refname:short) %(subject)'
+    branches = for-each-ref --sort=-committerdate refs/heads --format='%(refname:short)'
+    tags = for-each-ref --sort=-committerdate refs/tags --format='%(refname:short)'
+    
+    # DevBox specific
+    devbox = !echo "DevBox Git Configuration Loaded"
+    setup = !echo "Setting up Git for DevBox..."
+
+[color]
+    ui = auto
+    status = auto
+    branch = auto
+    diff = auto
+    interactive = auto
+
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
+
+[color "branch"]
+    current = yellow
+    local = green
+    remote = red
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[color "grep"]
+    match = red bold
+    matchContext = yellow bold
+    matchSelected = red bold
+
+[color "interactive"]
+    prompt = yellow
+    header = cyan
+    help = cyan
+    error = red
+
+[help]
+    autocorrect = 1
+
+[rerere]
+    enabled = true
+
+[rebase]
+    autoStash = true
+
+[merge]
+    tool = vscode
+    conflictstyle = diff3
+
+[diff]
+    tool = vscode
+    algorithm = patience
+
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[credential]
+    helper = cache
+
+[credential "https://github.com"]
+    helper = !gh auth git-credential
+
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+
+[url "https://github.com:"]
+    insteadOf = git://github.com/ 
