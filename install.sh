@@ -22,6 +22,14 @@ DEVBOX_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Print banner
 print_banner() {
     echo -e "${CYAN}"
+    echo ""
+    echo "    ██████╗ ███████╗██╗   ██╗██████╗  ██████╗ ██╗  ██╗"
+    echo "    ██╔══██╗██╔════╝██║   ██║██╔══██╗██╔═══██╗██║ ██╔╝"
+    echo "    ██║  ██║█████╗  ██║   ██║██████╔╝██║   ██║█████╔╝ "
+    echo "    ██║  ██║██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔═██╗ "
+    echo "    ██████╔╝███████╗╚██████╔╝██████╔╝╚██████╔╝██║  ██╗"
+    echo "    ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝"
+    echo ""
     echo "╔══════════════════════════════════════════════════════════════╗"
     echo "║                    🛠️  DevBox Basic                          ║"
     echo "║           One-Command Developer Environment Setup             ║"
@@ -131,8 +139,14 @@ setup_devbox_structure() {
     print_status "DevBox home directory created: $DEVBOX_HOME"
 }
 
-# Install Zsh and Oh My Zsh
+# Install Zsh and Oh My Zsh (Windows-aware)
 install_zsh() {
+    if [[ "$OS" == "windows" ]]; then
+        print_warning "Zsh not available on Windows. Using Bash instead."
+        print_warning "For full DevBox experience, use WSL or Git Bash with WSL integration."
+        return 0
+    fi
+    
     if ! command_exists zsh; then
         print_step "Installing Zsh..."
         
@@ -183,23 +197,39 @@ copy_config_files() {
     print_warning "Upgrade to Pro for advanced configurations and premium templates"
 }
 
-# Setup shell configuration
+# Setup shell configuration (Windows-aware)
 setup_shell_config() {
     print_step "Setting up shell configuration..."
     
-    # Create .zshrc if it doesn't exist
-    if [[ ! -f "$HOME/.zshrc" ]]; then
-        touch "$HOME/.zshrc"
+    if [[ "$OS" == "windows" ]]; then
+        # For Windows, create .bashrc instead of .zshrc
+        if [[ ! -f "$HOME/.bashrc" ]]; then
+            touch "$HOME/.bashrc"
+        fi
+        
+        # Add DevBox configuration to .bashrc for Windows
+        if ! grep -q "source ~/.devbox/config/bashrc" "$HOME/.bashrc"; then
+            echo "" >> "$HOME/.bashrc"
+            echo "# DevBox Configuration" >> "$HOME/.bashrc"
+            echo "source ~/.devbox/config/bashrc" >> "$HOME/.bashrc"
+        fi
+        
+        print_status "Windows Bash configuration updated"
+    else
+        # For Unix-like systems, use .zshrc
+        if [[ ! -f "$HOME/.zshrc" ]]; then
+            touch "$HOME/.zshrc"
+        fi
+        
+        # Add DevBox configuration to .zshrc
+        if ! grep -q "source ~/.devbox/config/zshrc" "$HOME/.zshrc"; then
+            echo "" >> "$HOME/.zshrc"
+            echo "# DevBox Configuration" >> "$HOME/.zshrc"
+            echo "source ~/.devbox/config/zshrc" >> "$HOME/.zshrc"
+        fi
+        
+        print_status "Shell configuration updated"
     fi
-    
-    # Add DevBox configuration to .zshrc
-    if ! grep -q "source ~/.devbox/config/zshrc" "$HOME/.zshrc"; then
-        echo "" >> "$HOME/.zshrc"
-        echo "# DevBox Configuration" >> "$HOME/.zshrc"
-        echo "source ~/.devbox/config/zshrc" >> "$HOME/.zshrc"
-    fi
-    
-    print_status "Shell configuration updated"
 }
 
 # Install VS Code extensions (basic set)
@@ -301,11 +331,45 @@ EOF
     print_warning "Upgrade to Pro for premium templates and advanced configurations"
 }
 
-# Setup basic aliases
+# Setup basic aliases (Windows-aware)
 setup_aliases() {
     print_step "Setting up basic aliases..."
     
-    cat > "$DEVBOX_HOME/config/aliases.sh" << 'EOF'
+    if [[ "$OS" == "windows" ]]; then
+        # Windows-specific aliases
+        cat > "$DEVBOX_HOME/config/bashrc" << 'EOF'
+# DevBox Basic Aliases for Windows
+
+# Navigation
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Git shortcuts
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+
+# Development
+alias dev="npm run dev"
+alias start="npm start"
+alias build="npm run build"
+
+# DevBox specific
+alias devbox="cd ~/.devbox"
+alias devbox-upgrade="echo 'Upgrade to Pro: https://devbox.dev/pro'"
+
+# Create new projects (basic)
+function create-react-app() {
+    npx create-react-app "$1"
+    cd "$1"
+    npm install
+    code .
+}
+EOF
+    else
+        # Unix-like system aliases
+        cat > "$DEVBOX_HOME/config/aliases.sh" << 'EOF'
 # DevBox Basic Aliases
 
 # Navigation
@@ -335,7 +399,8 @@ function create-react-app() {
     code .
 }
 EOF
-
+    fi
+    
     print_status "Basic aliases configured"
     print_warning "Upgrade to Pro for advanced aliases and productivity functions"
 }
@@ -357,14 +422,20 @@ echo ""
 echo "📦 What's been installed:"
 echo "   • Node.js and basic npm packages"
 echo "   • Git configuration"
-echo "   • Zsh with Oh My Zsh"
+echo "   • Shell configuration (Zsh on Unix, Bash on Windows)"
 echo "   • Basic VS Code extensions"
 echo "   • Basic project templates"
 echo "   • Basic development aliases"
 echo ""
 echo "🚀 Next steps:"
-echo "   1. Restart your terminal or run: source ~/.zshrc"
-echo "   2. Start coding with: create-react-app my-app"
+if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
+    echo "   1. Restart your terminal or run: source ~/.bashrc"
+    echo "   2. Start coding with: create-react-app my-app"
+    echo "   3. For better experience, consider using WSL"
+else
+    echo "   1. Restart your terminal or run: source ~/.zshrc"
+    echo "   2. Start coding with: create-react-app my-app"
+fi
 echo ""
 echo "💎 Upgrade to DevBox Pro for:"
 echo "   • Advanced configurations"

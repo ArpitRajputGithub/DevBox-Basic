@@ -43,12 +43,19 @@ DevBox Basic is the free version of our developer environment setup tool. It pro
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Git
-- Node.js (will be installed if missing)
-- A Unix-like terminal (Git Bash on Windows)
+- **Git** (will be installed if missing)
+- **Node.js** (will be installed if missing)
+- **Terminal**: Git Bash, WSL, or native terminal
 
 ### Installation
 
+#### **Option 1: One-Command Install (Recommended)**
+```bash
+# Clone and install in one go
+curl -fsSL https://raw.githubusercontent.com/ArpitRajputGithub/DevBox-Basic/main/install.sh | bash
+```
+
+#### **Option 2: Manual Install**
 ```bash
 # Clone DevBox Basic
 git clone https://github.com/ArpitRajputGithub/DevBox-Basic.git
@@ -56,6 +63,64 @@ cd DevBox-Basic
 
 # Run the basic setup
 ./install.sh
+```
+
+## 🖥️ Platform-Specific Instructions
+
+### **🐧 Linux & macOS**
+```bash
+# Make script executable and run
+chmod +x install.sh
+./install.sh
+```
+
+### **🪟 Windows**
+#### **Option A: Git Bash (Recommended)**
+```bash
+# Open Git Bash and run
+./install.sh
+```
+
+#### **Option B: WSL (Best Experience)**
+```bash
+# Install WSL first, then run
+wsl --install
+wsl
+./install.sh
+```
+
+#### **Option C: PowerShell (Basic Support)**
+```bash
+# Run with bash
+bash install.sh
+```
+
+### **⚠️ Windows Troubleshooting**
+- **Git Bash**: Works out of the box
+- **WSL**: Full Zsh experience with all features
+- **PowerShell**: Basic support, consider WSL for full features
+- **Line Endings**: Script automatically handles Windows line endings
+
+## 🔧 Post-Installation
+
+### **For Unix/Linux/macOS:**
+```bash
+# Restart terminal or reload config
+source ~/.zshrc
+
+# Test DevBox
+devbox-status
+devbox-help
+```
+
+### **For Windows:**
+```bash
+# Restart terminal or reload config
+source ~/.bashrc
+
+# Test DevBox
+devbox-status
+devbox-help
 ```
 
 That's it! Your basic development environment is now ready.
@@ -74,8 +139,9 @@ That's it! Your basic development environment is now ready.
 - **Keybindings**: Standard shortcuts
 
 ### 🔧 Shell & Terminal
-- **Zsh**: Modern shell with Oh My Zsh
-- **Basic Aliases**: Common shortcuts
+- **Zsh**: Modern shell with Oh My Zsh (Linux/macOS)
+- **Bash**: Optimized for Windows users
+- **Basic Aliases**: Common shortcuts for all platforms
 - **Prompt**: Simple terminal prompt
 
 ### 📚 Project Templates
@@ -86,6 +152,7 @@ That's it! Your basic development environment is now ready.
 
 DevBox Basic is designed to be easily customizable:
 
+### **For Linux/macOS Users:**
 ```bash
 # Edit your preferences
 nano ~/.devbox/config/zshrc
@@ -96,6 +163,24 @@ nano ~/.devbox/config/aliases.sh
 # Modify VS Code settings
 nano ~/.devbox/vscode/settings.json
 ```
+
+### **For Windows Users:**
+```bash
+# Edit your preferences (Git Bash)
+nano ~/.devbox/config/bashrc
+
+# Add custom aliases
+nano ~/.devbox/config/bashrc
+
+# Modify VS Code settings
+nano ~/.devbox/vscode/settings.json
+```
+
+### **Cross-Platform Customization:**
+- **Git Configuration**: Edit `~/.devbox/config/gitconfig`
+- **VS Code Settings**: Edit `~/.devbox/vscode/settings.json`
+- **Project Templates**: Modify `~/.devbox/templates/`
+- **Custom Scripts**: Add to `~/.devbox/scripts/`
 
 ## 💰 Pricing
 
@@ -121,6 +206,67 @@ nano ~/.devbox/vscode/settings.json
 - Dedicated support
 - On-premise deployment
 - Team management dashboard
+
+## 🔧 Troubleshooting
+
+### **Common Issues & Solutions**
+
+#### **Script Permission Denied**
+```bash
+# Fix: Make script executable
+chmod +x install.sh
+```
+
+#### **Line Ending Issues (Windows)**
+```bash
+# Fix: Use dos2unix or run in WSL
+dos2unix install.sh
+# OR run in WSL where line endings are handled automatically
+```
+
+#### **Zsh Not Found (Windows)**
+- **Git Bash**: Script automatically uses Bash instead
+- **WSL**: Install WSL for full Zsh experience
+- **PowerShell**: Use `bash install.sh` command
+
+#### **VS Code Extensions Not Installing**
+- Ensure VS Code is installed and in PATH
+- Restart terminal after VS Code installation
+- Run script again after VS Code setup
+
+#### **Git Configuration Issues**
+```bash
+# Fix: Set your Git identity
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+#### **Node.js Installation Fails**
+```bash
+# Linux: Use package manager
+sudo apt update && sudo apt install nodejs npm
+
+# macOS: Use Homebrew
+brew install node
+
+# Windows: Download from https://nodejs.org
+```
+
+### **Platform-Specific Solutions**
+
+#### **Windows Users**
+- **Git Bash**: Best compatibility, runs natively
+- **WSL**: Full Linux experience, recommended for developers
+- **PowerShell**: Basic support, limited features
+
+#### **Linux Users**
+- **Ubuntu/Debian**: Script handles dependencies automatically
+- **Arch/Manjaro**: May need manual package installation
+- **WSL**: Full compatibility with all features
+
+#### **macOS Users**
+- **Homebrew**: Required for package management
+- **Terminal**: Native support, no additional setup needed
 
 ## 🤝 Support
 
