@@ -181,9 +181,6 @@ copy_config_files() {
     # Copy basic scripts
     cp -r "$DEVBOX_REPO/scripts/"* "$DEVBOX_HOME/scripts/" 2>/dev/null || true
     
-    # Copy basic config files
-    cp -r "$DEVBOX_REPO/config/"* "$DEVBOX_HOME/config/" 2>/dev/null || true
-    
     # Copy basic VS Code settings
     cp -r "$DEVBOX_REPO/vscode/"* "$DEVBOX_HOME/vscode/" 2>/dev/null || true
     
@@ -193,6 +190,9 @@ copy_config_files() {
     # Copy basic templates (limited)
     cp -r "$DEVBOX_REPO/templates/"* "$DEVBOX_HOME/templates/" 2>/dev/null || true
     
+    # Note: Config files (zshrc, aliases.sh, gitconfig) are created by setup functions
+    # to ensure proper content and avoid copying old files with wrong line endings
+    
     print_status "Basic configuration files copied"
     print_warning "Upgrade to Pro for advanced configurations and premium templates"
 }
@@ -201,6 +201,50 @@ copy_config_files() {
 setup_shell_config() {
     print_step "Setting up shell configuration..."
     
+    # Create DevBox zshrc config file
+    cat > "$DEVBOX_HOME/config/zshrc" << 'EOF'
+# DevBox Zsh Configuration
+# This file is sourced by ~/.zshrc
+
+# Set theme
+ZSH_THEME="robbyrussell"
+
+# Oh My Zsh plugins
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    docker
+    npm
+    node
+    vscode
+)
+
+# Load Oh My Zsh
+export ZSH="$HOME/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
+
+# Environment variables
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="code"
+
+# History configuration
+HIST_STAMPS="yyyy-mm-dd"
+HISTSIZE=10000
+SAVEHIST=10000
+
+# Key bindings
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# Custom prompt
+PROMPT='%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m%{$reset_color%} %{$fg[yellow]%}%~%{$reset_color%} $(git_prompt_info)'
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+EOF
+
     if [[ "$OS" == "windows" ]]; then
         # For Windows, create .bashrc instead of .zshrc
         if [[ ! -f "$HOME/.bashrc" ]]; then
@@ -266,6 +310,74 @@ install_vscode_extensions() {
 setup_git_config() {
     print_step "Setting up Git configuration..."
     
+    # Create DevBox gitconfig file
+    cat > "$DEVBOX_HOME/config/gitconfig" << 'EOF'
+[user]
+    name = Your Name
+    email = your.email@example.com
+
+[core]
+    editor = code --wait
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+    pager = cat
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = false
+
+[push]
+    default = simple
+    autoSetupRemote = true
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[merge]
+    tool = vscode
+    conflictstyle = diff3
+
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+    trustExitCode = true
+
+[diff]
+    tool = vscode
+
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+EOF
+
     # Set basic Git configuration
     git config --global init.defaultBranch main
     git config --global pull.rebase false
