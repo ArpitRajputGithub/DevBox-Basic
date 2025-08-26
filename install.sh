@@ -201,6 +201,7 @@ copy_config_files() {
 setup_shell_config() {
     print_step "Setting up shell configuration..."
     
+    print_status "Creating zshrc config file..."
     # Create DevBox zshrc config file
     cat > "$DEVBOX_HOME/config/zshrc" << 'EOF'
 # DevBox Zsh Configuration
@@ -290,7 +291,7 @@ install_vscode_extensions() {
         extensions=(
             "ms-vscode.vscode-typescript-next"
             "esbenp.prettier-vscode"
-            "ms-vscode.vscode-eslint"
+            "dbaeumer.vscode-eslint"
             "ms-vscode.vscode-json"
             "formulahendry.auto-rename-tag"
         )
@@ -451,6 +452,8 @@ EOF
 # Setup basic aliases (Windows-aware)
 setup_aliases() {
     print_step "Setting up basic aliases..."
+    
+    print_status "Creating aliases file for OS: $OS"
     
     if [[ "$OS" == "windows" ]]; then
         # Windows-specific aliases
@@ -642,23 +645,23 @@ main() {
     install_zsh
     setup_shell_config
     
-    # Copy configuration files
-    copy_config_files
-    
     # Setup Git
     setup_git_config
+    
+    # Setup aliases (must come before copy_config_files)
+    setup_aliases
+    
+    # Copy configuration files (templates, scripts, vscode)
+    copy_config_files
+    
+    # Create templates
+    create_templates
     
     # Install VS Code extensions
     install_vscode_extensions
     
     # Install npm packages
     install_npm_packages
-    
-    # Create templates
-    create_templates
-    
-    # Setup aliases
-    setup_aliases
     
     # Final setup
     final_setup
