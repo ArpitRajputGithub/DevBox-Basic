@@ -228,6 +228,11 @@ setup_shell_config() {
             echo "source ~/.devbox/config/zshrc" >> "$HOME/.zshrc"
         fi
         
+        # Also add aliases for Unix systems
+        if ! grep -q "source ~/.devbox/config/aliases.sh" "$HOME/.zshrc"; then
+            echo "source ~/.devbox/config/aliases.sh" >> "$HOME/.zshrc"
+        fi
+        
         print_status "Shell configuration updated"
     fi
 }
@@ -366,6 +371,32 @@ function create-react-app() {
     npm install
     code .
 }
+
+# DevBox functions
+function devbox-status() {
+    echo "🛠️  DevBox Basic Status"
+    echo "📁 Home: ~/.devbox"
+    echo "🐧 OS: $(uname -s)"
+    echo "🐚 Shell: $SHELL"
+    echo "📦 Node: $(node --version 2>/dev/null || echo 'Not installed')"
+    echo "🔧 Git: $(git --version 2>/dev/null || echo 'Not installed')"
+}
+
+function devbox-help() {
+    echo "🛠️  DevBox Basic Help"
+    echo ""
+    echo "🚀 Available Commands:"
+    echo "  devbox-status    - Show DevBox status"
+    echo "  devbox-help      - Show this help"
+    echo "  devbox           - Go to DevBox home"
+    echo "  devbox-upgrade   - Upgrade to Pro"
+    echo ""
+    echo "🚀 Quick Start:"
+    echo "  create-react-app my-app"
+    echo "  npm start"
+    echo ""
+    echo "💎 Upgrade: https://devbox.dev/pro"
+}
 EOF
     else
         # Unix-like system aliases
@@ -397,6 +428,32 @@ function create-react-app() {
     cd "$1"
     npm install
     code .
+}
+
+# DevBox functions
+function devbox-status() {
+    echo "🛠️  DevBox Basic Status"
+    echo "📁 Home: ~/.devbox"
+    echo "🐧 OS: $(uname -s)"
+    echo "🐚 Shell: $SHELL"
+    echo "📦 Node: $(node --version 2>/dev/null || echo 'Not installed')"
+    echo "🔧 Git: $(git --version 2>/dev/null || echo 'Not installed')"
+}
+
+function devbox-help() {
+    echo "🛠️  DevBox Basic Help"
+    echo ""
+    echo "🚀 Available Commands:"
+    echo "  devbox-status    - Show DevBox status"
+    echo "  devbox-help      - Show this help"
+    echo "  devbox           - Go to DevBox home"
+    echo "  devbox-upgrade   - Upgrade to Pro"
+    echo ""
+    echo "🚀 Quick Start:"
+    echo "  create-react-app my-app"
+    echo "  npm start"
+    echo ""
+    echo "💎 Upgrade: https://devbox.dev/pro"
 }
 EOF
     fi
